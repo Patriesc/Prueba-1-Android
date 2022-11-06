@@ -8,7 +8,7 @@ import androidx.room.Query;
 
 import java.util.List;
 
-public interface crud {
+public interface Crud {
     @Insert(onConflict = REPLACE)
     void insert(Datos datosMain);
 
