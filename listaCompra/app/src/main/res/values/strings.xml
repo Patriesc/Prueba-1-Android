@@ -1,0 +1,8 @@
+<resources>
+    <string name="action_settings">Settings</string>
+    <string name="add_button_text">Add</string>
+    <string name="item_editText_hint">Write a new item</string>
+    <string name="app_name">Lista Compra</string>
+    <string name="cantidad">Cantidad</string>
+    <string name="precio">Precio</string>
+</resources>
