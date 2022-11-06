@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/patri/Documents/3informatica/prEventos/android/Prueba1/app/src/main/res/drawable/ic_delete.xml" value="0.124" />
+        <entry key="..\:/Users/patri/Documents/3informatica/prEventos/android/Prueba1/app/src/main/res/drawable/ic_edit.xml" value="0.124" />
         <entry key="..\:/Users/patri/Documents/3informatica/prEventos/android/Prueba1/app/src/main/res/layout/activity_main.xml" value="0.22826086956521738" />
+        <entry key="..\:/Users/patri/Documents/3informatica/prEventos/android/Prueba1/app/src/main/res/layout/actualizado.xml" value="0.11302083333333333" />
         <entry key="..\:/Users/patri/Documents/3informatica/prEventos/android/Prueba1/app/src/main/res/layout/lista_filas.xml" value="0.25416666666666665" />
       </map>
     </option>

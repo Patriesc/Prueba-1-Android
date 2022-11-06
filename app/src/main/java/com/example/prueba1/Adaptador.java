@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,8 +22,12 @@ public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolder> {
 
     private List<Datos> dataList;
     private Activity context;
+    private BaseDatos database;
 
     AlertDialog.Builder builder;
+
+    //create constructor
+
 
     public Adaptador(List<Datos> dataList, Activity context) {
         this.dataList = dataList;
@@ -34,9 +39,9 @@ public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolder> {
 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.lista_filas, parent, false);
+        //intilaize view
+        View view= LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.lista_filas,parent,false);
 
 
         return new ViewHolder(view);
@@ -44,32 +49,54 @@ public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull Adaptador.ViewHolder holder, int position) {
-        Datos data = dataList.get(position);
+        Datos data=dataList.get(position);
+        database=BaseDatos.getInstance(context);
+        //set text in textview
+        holder.textView.setText(data.getTexto());
 
         holder.btEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Datos d = dataList.get(holder.getAdapterPosition());
-
+                Datos d=dataList.get(holder.getAdapterPosition());
+                int sID = d.getID();
+                String sText = d.getTexto();
 
                 Dialog dialog = new Dialog(context);
 
+                dialog.setContentView(R.layout.actualizado);
 
-                int width = WindowManager.LayoutParams.MATCH_PARENT;
 
-                int height = WindowManager.LayoutParams.WRAP_CONTENT;
+                int width= WindowManager.LayoutParams.MATCH_PARENT;
 
-                dialog.getWindow().setLayout(width, height);
+                int height=WindowManager.LayoutParams.WRAP_CONTENT;
+
+                dialog.getWindow().setLayout(width,height);
 
 
                 dialog.show();
 
+                EditText editText=dialog.findViewById(R.id.edit_text);
+                Button btUpdate=dialog.findViewById(R.id.bt_update);
 
-                EditText editText = dialog.findViewById(R.id.edit_text);
+                editText.setText(sText);
+
+                btUpdate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        dialog.dismiss();
+
+                        String uText=editText.getText().toString().trim();
+
+                        database.crud().upate(sID,uText);
+
+                        dataList.clear();
+                        dataList.addAll(database.crud().getAll());
+                        notifyDataSetChanged();
 
 
-
-
+                    }
+                });
 
             }
         });
@@ -77,20 +104,28 @@ public class Adaptador extends RecyclerView.Adapter<Adaptador.ViewHolder> {
         holder.btDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                builder = new AlertDialog.Builder(v.getContext());
-                //Setting message manually and performing action on button click
-                builder.setMessage("Are you sure you want to delete this task?")
+                builder= new AlertDialog.Builder(v.getContext());
+                builder.setMessage("¿Seguro que quieres borrar esta tarea?")
                         .setCancelable(false)
+                        .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                Datos d=dataList.get(holder.getAdapterPosition());
+
+                                database.crud().delete(d);
+                                int position = holder.getAdapterPosition();
+                                dataList.remove(position);
+                                notifyItemRemoved(position);
+                                notifyItemRangeChanged(position,dataList.size());
+                            }
+                        })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                //  Action for 'NO' Button
                                 dialog.cancel();
                             }
                         });
-                //Creating dialog box
                 AlertDialog alert = builder.create();
-                //Setting the title manually
-                alert.setTitle("DeleteConfirmation");
+                alert.setTitle("ConfirmacionBorrado");
                 alert.show();
 
             }
