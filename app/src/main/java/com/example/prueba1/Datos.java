@@ -8,6 +8,7 @@ import androidx.room.PrimaryKey;
 import java.io.Serializable;
 
 public class Datos implements Serializable {
+
     @Entity(tableName = "table_name")
     public class MainData implements Serializable {
 

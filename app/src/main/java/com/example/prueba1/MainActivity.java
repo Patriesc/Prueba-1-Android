@@ -5,8 +5,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
 
+
+    List<Datos> dataList=new ArrayList<>();
     LinearLayoutManager linearLayoutManager;
 
 
